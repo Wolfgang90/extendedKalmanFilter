@@ -5,6 +5,7 @@
 #include "ground_truth_package.h"
 #include "measurement_package.h"
 #include "Eigen/Dense"
+#include "FusionEKF.h"
 
 
 using namespace std;
@@ -131,6 +132,21 @@ int main(int argc, char *argv[]){
     gt_pack_list.push_back(gt_package);
   }
   cout << "Data read in successfully" << endl;
+
+  // Create a Fusion EKF instance
+  FusionEKF fusionEKF;
+
+  // used to compute the RMSE later
+  vector<VectorXd> estimations;
+  vector<VectorXd> ground_truth;
+
+  // Call the EKF-based fusion
+  size_t N = measurement_pack_list.size();
+  for (size_t k = 0; k < N; ++k) {
+    // start filtering from the second frame (the speed is unknown in the first
+    // frame)
+    fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
+
 
   return 0;
 }
