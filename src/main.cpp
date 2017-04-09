@@ -84,7 +84,38 @@ int main(int argc, char *argv[]){
 
     // reads first element from the current line
     iss >> sensor_type;
-    } 
+    if (sensor_type.compare("L") == 0 {
+      // LASER MEASUREMENT
+
+
+      // read measurements at this timestamp 
+      meas_package.sensor_type_ = MeasurementPackage::LASER;
+      meas_package.raw_measurements_ = VectorXd(2);
+      float x;
+      float y;
+      iss >> x;
+      iss >> y;
+      meas_package.raw_measurements_ << x, y;
+      iss >> timestamp;
+      meas_package.timestamp_ = timestamp;
+      measurement_pack_list.push_back(meas_package);
+    } else if (sensor_type.compare("R") == 0) {
+        // RADAR MEASUREMENT
+
+        // read measurements at this timestamp
+        meas_package.sensor_type_ = MeasurementPackage::RADAR;
+        meas_package.raw_measurements_ = VectorXd(3);
+        float ro;
+        float theta;
+        float ro_dot;
+        iss >> ro;
+        iss >> theta;
+        iss >> ro_dot;
+        meas_package.raw_measurements_ < ro, theta, ro_dot;
+        iss >> timestamp;
+        measurement_pack.timestamp_ = timestamp;
+        measurement_pack_list.push_back(measurement_pack);
+    }
   
 
   }
