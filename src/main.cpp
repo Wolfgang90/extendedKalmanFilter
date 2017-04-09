@@ -1,8 +1,16 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <vector>
+#include "ground_truth_package.h"
+#include "measurement_package.h"
+#include "Eigen/Dense"
+
 
 using namespace std;
+using std::vector;
+using Eigen::VectorXd;
+using Eigen::MatrixXd;
 
 void check_arguments(int argc, char *argv[]){
 
@@ -51,8 +59,6 @@ int main(int argc, char *argv[]){
   
   check_arguments(argc, argv);
 
-  // Initialize and check in/out-files
-
   // Initialize input file
   string in_file_name_ = argv[1];
   ifstream in_file_(in_file_name_.c_str(), ifstream::in);
@@ -64,8 +70,24 @@ int main(int argc, char *argv[]){
   // Analyze whether files are read- and writeable
   check_files(in_file_, in_file_name_, out_file_, out_file_name_); 
 
-  //Load data from input file
+  vector<MeasurementPackage> measurement_pack_list;
+  vector<GroundTruthPackage> gt_pack_list;
 
+  sting line;
+
+  while (getline(in_file_, line)) {
+    string sensor_type;
+    MeasurementPackage meas_package;
+    GroundTruthPackage gt_package;
+    istringstream iss(line);
+    long timestamp;
+
+    // reads first element from the current line
+    iss >> sensor_type;
+    } 
+  
+
+  }
 
   return 0;
 }
