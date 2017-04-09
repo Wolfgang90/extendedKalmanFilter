@@ -73,7 +73,7 @@ int main(int argc, char *argv[]){
   vector<MeasurementPackage> measurement_pack_list;
   vector<GroundTruthPackage> gt_pack_list;
 
-  sting line;
+  string line;
 
   while (getline(in_file_, line)) {
     string sensor_type;
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]){
 
     // reads first element from the current line
     iss >> sensor_type;
-    if (sensor_type.compare("L") == 0 {
+    if (sensor_type.compare("L") == 0) {
       // LASER MEASUREMENT
 
 
@@ -111,10 +111,10 @@ int main(int argc, char *argv[]){
         iss >> ro;
         iss >> theta;
         iss >> ro_dot;
-        meas_package.raw_measurements_ < ro, theta, ro_dot;
+        meas_package.raw_measurements_ << ro, theta, ro_dot;
         iss >> timestamp;
-        measurement_pack.timestamp_ = timestamp;
-        measurement_pack_list.push_back(measurement_pack);
+        meas_package.timestamp_ = timestamp;
+        measurement_pack_list.push_back(meas_package);
     }
     
     // read ground truth data to compare later
@@ -130,8 +130,7 @@ int main(int argc, char *argv[]){
     gt_package.gt_values_ << x_gt, y_gt, vx_gt, vy_gt;
     gt_pack_list.push_back(gt_package);
   }
-
-
+  cout << "Data read in successfully" << endl;
 
   return 0;
 }
