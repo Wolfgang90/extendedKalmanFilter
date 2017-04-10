@@ -31,7 +31,7 @@ FusionEKF::FusionEKF() {
               0,         0, 0.09
 
   // Initialize measurement matrix 
-  H_laser_ = MatriXd(2,4);
+  H_laser_ = MatrixXd(2,4);
   H_laser_ << 1, 0, 0, 0,
               0, 1, 0, 0;
 
