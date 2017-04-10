@@ -135,17 +135,18 @@ int main(int argc, char *argv[]){
 
   // Create a Fusion EKF instance
   FusionEKF fusionEKF;
+  cout << "Fusion EKF instance initialized" << endl;
 
   // used to compute the RMSE later
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
 
   // Call the EKF-based fusion
-  size_t N = measurement_pack_list.size();
-  for (size_t k = 0; k < N; ++k) {
+//  size_t N = measurement_pack_list.size();
+//  for (size_t k = 0; k < N; ++k) {
     // start filtering from the second frame (the speed is unknown in the first
     // frame)
-    fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
+//    fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
 
 
   return 0;
