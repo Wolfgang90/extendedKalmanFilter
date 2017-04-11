@@ -19,7 +19,7 @@ public:
   /**
   * A helper method to calculate the function h(x') for Laser Measurement Update  
   */
-
+  Eigen::VectorXd CalculatePolarMappingHx(const Eigen::VectorXd &x_state);
 
   /**
   * A helper method to calculate RMSE.
