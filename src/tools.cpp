@@ -37,9 +37,9 @@ VectorXd Tools::CalculatePolarMappingHx(const VectorXd &x_state) {
 }
 
 VectorXd Tools::CalculateCartesianMappings(const VectorXd& x_meas) {
-  double rho = x_measure(0);
-  double phi = x_measure(1);
-  double rho_dot = x_state(2);
+  double rho = x_meas(0);
+  double phi = x_meas(1);
+  double rho_dot = x_meas(2);
 
   float px = sqrt(rho*rho / (1+ tan(phi) * tan(phi));
   float py = tan(phi) * px;
