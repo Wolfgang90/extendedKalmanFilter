@@ -31,7 +31,7 @@ void KalmanFilter::Update(const VectorXd &z) {
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
   MatrixXd PHt = P_ * Ht;
-  MatrixXd K = Pht * Si;
+  MatrixXd K = PHt * Si;
 
   //new estimate
   x_ = x_ + (K * y);
@@ -47,18 +47,18 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // use non-linear measurement function to project
   
   // Define h-function to be used instead of H-matrix
-  hx = tools.CalculatePolarMappinHx(const VectorXd &x_);
-  Hj = tools.CalculateJacobian(const VectorXd &x_);
+  VectorXd hx = tools.CalculatePolarMappingHx(x_);
+  MatrixXd Hj = tools.CalculateJacobian(x_);
 
-  VectorXd z_pred = z - hx;
+  VectorXd y = z - hx;
   MatrixXd Hjt = Hj.transpose();
   MatrixXd S = Hj * P_ * Hjt;
   MatrixXd Si = S.inverse();
   MatrixXd PHt = P_ * Hjt;
-  MatrixXd K = Pht * Si;
+  MatrixXd K = PHt * Si;
 
   // new estimate
-  x_ = x + (K*t);
+  x_ = x_ + (K*y);
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;

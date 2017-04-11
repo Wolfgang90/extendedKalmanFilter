@@ -1,14 +1,15 @@
 #include <iostream>
 #include <cmath>
-#include "tools.h"
+#include "tools.h" 
 
+using namespace std;
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
 using std::vector;
 
 Tools::Tools() {}
 
-tools::~Tools() {}
+Tools::~Tools() {}
 
 VectorXd Tools::CalculatePolarMappingHx(const VectorXd &x_state) {
   double px = x_state(0);
@@ -24,7 +25,7 @@ VectorXd Tools::CalculatePolarMappingHx(const VectorXd &x_state) {
   // prevent division by zero
   if(tmp_1 == 0) {
     cout << "Avoided division by 0 while mapping polar to cartesian coordinates" << endl;
-    tmp_1 = 0.0000000001
+    tmp_1 = 0.0000000001;
   }
   
   //Create mapping vector
@@ -51,7 +52,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   }
   
   // accumulate square residuals
-  for(unsigned int i=0; i < estimation.size(); ++i){
+  for(unsigned int i=0; i < estimations.size(); ++i){
     
     VectorXd residual = estimations[i] - ground_truth[i];
 
@@ -81,7 +82,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
   //pre-compute a set of terms to avoid repeated calculation
   float c1 = px*px+py*py;
-  float c2 = (c1*c2);
+  float c2 = sqrt(c1);
+  float c3 = (c2*c2);
 
   //check division by zero
   if(fabs(c1) < 0.0001){

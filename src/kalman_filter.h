@@ -2,14 +2,17 @@
 #define KALMAN_FILTER_H_
 
 #include "Eigen/Dense"
+#include "tools.h"
 
 class KalmanFilter {
 public:
-
   //state vector
-  Eigen::MatrixXd P_;
+  Eigen::VectorXd x_;
 
   //state covariance matrix
+  Eigen::MatrixXd P_;
+
+  //state transision matrix
   Eigen::MatrixXd F_;
 
   // process covariance matrix
@@ -41,7 +44,7 @@ public:
    * @param Q_in Process covariance matrix
    */
   void Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in, Eigen::MatrixXd &F_in,
-            Eigen::MatrixXd &H_in, Eigen::MatrixXd &R_in, Eigen::MatrixXd &Q_in;
+            Eigen::MatrixXd &H_in, Eigen::MatrixXd &R_in, Eigen::MatrixXd &Q_in);
 
   /**
    * Prediction predicts the state and the state covariance
@@ -61,6 +64,10 @@ public:
    * @param z the measurement at k+1
    */
   void UpdateEKF(const Eigen::VectorXd &z);
+  
+private:
+  Tools tools;
+
 };
 
 #endif /* KALMAN_FILTER_H_ */
