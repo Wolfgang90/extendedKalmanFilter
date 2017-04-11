@@ -40,5 +40,8 @@ void KalmanFilter::Update(const VectorXd &z) {
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
-  //Udate state by using extended Kalman Filter equations
+  // Define h-function to be used instead of H-matrix
+  //Update state by using Kalman Filter equations
+  //calculate the new Jacobian Hj  
+  // use non-linear measurement function to project
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "tools.h"
 
 using Eigen::VectorXd;
@@ -8,6 +9,32 @@ using std::vector;
 Tools::Tools() {}
 
 tools::~Tools() {}
+
+VectorXd Tools::CalculatePolarMappingHx(const VectorXd &x_state) {
+  double px = x_state(0);
+  double py = x_state(1);
+  double vx = x_state(2);
+  double vy = x_state(3);
+
+  VectorXd h_x(3);
+  
+  // define precalculated temporary values
+  double tmp_1 = sqrt(px*px + py*py); 
+
+  // prevent division by zero
+  if(tmp_1 == 0) {
+    cout << "Avoided division by 0 while mapping polar to cartesian coordinates" << endl;
+    tmp_1 = 0.0000000001
+  }
+  
+  //Create mapping vector
+  h_x << tmp_1,
+         atan2(py, px),
+         (px*py + py*vy)/tmp_1;
+
+  return h_x;
+}
+
 
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {

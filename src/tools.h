@@ -17,6 +17,11 @@ public:
   virtual ~Tools();
 
   /**
+  * A helper method to calculate the function h(x') for Laser Measurement Update  
+  */
+
+
+  /**
   * A helper method to calculate RMSE.
   */
   Eigen::VectorXd CalculateRMSE(const std::vector<Eigen::VectorXd> &estimations, const std::vector<Eigen::VectorXd> &ground_truth);
