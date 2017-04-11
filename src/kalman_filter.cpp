@@ -1,4 +1,5 @@
 #include "kalman_filter.h"
+#include "tools.h"
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -44,4 +45,21 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   //Update state by using Kalman Filter equations
   //calculate the new Jacobian Hj  
   // use non-linear measurement function to project
+  
+  // Define h-function to be used instead of H-matrix
+  hx = tools.CalculatePolarMappinHx(const VectorXd &x_);
+  Hj = tools.CalculateJacobian(const VectorXd &x_);
+
+  VectorXd z_pred = z - hx;
+  MatrixXd Hjt = Hj.transpose();
+  MatrixXd S = Hj * P_ * Hjt;
+  MatrixXd Si = S.inverse();
+  MatrixXd PHt = P_ * Hjt;
+  MatrixXd K = Pht * Si;
+
+  // new estimate
+  x_ = x + (K*t);
+  long x_size = x_.size();
+  MatrixXd I = MatrixXd::Identity(x_size, x_size);
+  P_ = (I - K * H_) * P_;
 }
