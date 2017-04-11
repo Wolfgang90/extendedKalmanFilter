@@ -36,6 +36,21 @@ VectorXd Tools::CalculatePolarMappingHx(const VectorXd &x_state) {
   return h_x;
 }
 
+VectorXd Tools::CalculateCartesianMappings(const VectorXd& x_meas) {
+  double rho = x_measure(0);
+  double phi = x_measure(1);
+  double rho_dot = x_state(2);
+
+  float px = sqrt(rho*rho / (1+ tan(phi) * tan(phi));
+  float py = tan(phi) * px;
+  float vx = rho_dot * cos(phi);
+  float vy = rho_dot * sin(phi)
+
+  VectorXd cartesian(4);
+  cartesian << px, py, vx, vy;
+  
+  return cartesian;
+}
 
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {

@@ -22,6 +22,11 @@ public:
   Eigen::VectorXd CalculatePolarMappingHx(const Eigen::VectorXd &x_state);
 
   /**
+  * A helper method to calculate the cartesian coordinates from the Radar Measuremente  
+  */
+  Eigen::VectorXd const CalculateCartesianMappings(Eigen::VectorXd &x_state);
+
+  /**
   * A helper method to calculate RMSE.
   */
   Eigen::VectorXd CalculateRMSE(const std::vector<Eigen::VectorXd> &estimations, const std::vector<Eigen::VectorXd> &ground_truth);
