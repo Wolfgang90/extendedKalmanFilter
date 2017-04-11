@@ -41,10 +41,10 @@ VectorXd Tools::CalculateCartesianMappings(const VectorXd& x_meas) {
   double phi = x_meas(1);
   double rho_dot = x_meas(2);
 
-  float px = sqrt(rho*rho / (1+ tan(phi) * tan(phi));
+  float px = sqrt(rho*rho) / (1+ tan(phi) * tan(phi));
   float py = tan(phi) * px;
   float vx = rho_dot * cos(phi);
-  float vy = rho_dot * sin(phi)
+  float vy = rho_dot * sin(phi);
 
   VectorXd cartesian(4);
   cartesian << px, py, vx, vy;
