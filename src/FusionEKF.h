@@ -41,10 +41,11 @@ private:
   Eigen::VectorXd x_;
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
-  Eigen::MatrixXd H_laser_;
+  Eigen::MatrixXd H_;
   Eigen::MatrixXd Hj_;
   Eigen::MatrixXd P_;
   Eigen::MatrixXd F_;
+  Eigen::MatrixXd Q_;
   float noise_ax;
   float noise_ay;
 };

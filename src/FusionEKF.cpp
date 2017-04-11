@@ -31,8 +31,8 @@ FusionEKF::FusionEKF() {
               0,         0, 0.09;
 
   // Initialize measurement matrix 
-  H_laser_ = MatrixXd(2,4);
-  H_laser_ << 1, 0, 0, 0,
+  H_ = MatrixXd(2,4);
+  H_ << 1, 0, 0, 0,
               0, 1, 0, 0;
 
   Hj_ = MatrixXd(3,4);
@@ -51,6 +51,9 @@ FusionEKF::FusionEKF() {
         0, 0, 1, 0,
         0, 0, 0, 1;
 
+  // Initialize process covariance matrix
+  Q_ = MatrixXd(4,4);
+  
   // set the acceleration noise components
   noise_ax = 9;
   noise_ax = 9;
@@ -61,3 +64,32 @@ FusionEKF::FusionEKF() {
   */
   FusionEKF::~FusionEKF() {}
 
+void FusionEKF::ProcessMeasurement(const MeasurementPackage &meas_package) {
+
+  //Initialization
+  if (!is_initialized_){
+    // initial measurement
+    cout << "EKF: " <<endl;
+
+    if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
+      x_ << tools.CalculateCartesianMappings(meas_package.raw_measurements_);
+      ekf_.Init(x_, P_, F_, H_, R_radar_, Q_); 
+             
+    } else if(meas_package.sensor_type_ == MeasurementPackage::LASER){
+      x_ << meas_package.raw_measurements_[0],
+            meas_package.raw_measurements_[1],
+            0,
+            0;
+            
+      ekf_.Init(x_, P_, F_, H_, R_laser_, Q_);
+    }
+
+    previous_timestamp_ = meas_package.timestamp_;
+
+    // done initializing, no need to predict or update
+    is_initialized_ = true;
+    
+    cout << "FusionEKF initialized" << endl;
+    return;
+  }
+}
