@@ -1,6 +1,8 @@
+#include <iostream>
 #include "kalman_filter.h"
 #include "tools.h"
 
+using namespace std;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
@@ -26,12 +28,19 @@ void KalmanFilter::Predict(){
 
 void KalmanFilter::Update(const VectorXd &z) {
   VectorXd z_pred = H_ * x_;
+  cout << "z_pred: " << z_pred << endl;
+  cout << "z" << z << endl;
   VectorXd y = z - z_pred;
   MatrixXd Ht = H_.transpose();
+  cout << "Ht" << Ht << endl;
+  cout << "R_ Dim: " << R_.rows() << " x "  << R_.cols() << endl;
   MatrixXd S = H_ * P_ * Ht + R_;
+  cout << "S" << S << endl;
   MatrixXd Si = S.inverse();
   MatrixXd PHt = P_ * Ht;
+  cout << "PHt" << PHt << endl;
   MatrixXd K = PHt * Si;
+  cout << "K" << K << endl;
 
   //new estimate
   x_ = x_ + (K * y);
@@ -49,10 +58,11 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // Define h-function to be used instead of H-matrix
   VectorXd hx = tools.CalculatePolarMappingHx(x_);
   MatrixXd Hj = tools.CalculateJacobian(x_);
-
+  
   VectorXd y = z - hx;
   MatrixXd Hjt = Hj.transpose();
-  MatrixXd S = Hj * P_ * Hjt;
+  
+  MatrixXd S = Hj * P_ * Hjt + R_;
   MatrixXd Si = S.inverse();
   MatrixXd PHt = P_ * Hjt;
   MatrixXd K = PHt * Si;
@@ -61,5 +71,5 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   x_ = x_ + (K*y);
   long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
-  P_ = (I - K * H_) * P_;
+  P_ = (I - K * Hj) * P_;
 }

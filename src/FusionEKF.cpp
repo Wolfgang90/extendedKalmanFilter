@@ -33,7 +33,7 @@ FusionEKF::FusionEKF() {
   // Initialize measurement matrix 
   H_ = MatrixXd(2,4);
   H_ << 1, 0, 0, 0,
-              0, 1, 0, 0;
+        0, 1, 0, 0;
 
   Hj_ = MatrixXd(3,4);
 
@@ -73,6 +73,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &meas_package) {
 
     if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
       x_ << tools.CalculateCartesianMappings(meas_package.raw_measurements_);
+
+
       ekf_.Init(x_, P_, F_, H_, R_radar_, Q_); 
              
     } else if(meas_package.sensor_type_ == MeasurementPackage::LASER){
@@ -115,18 +117,21 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &meas_package) {
 
   ekf_.Predict();
 
-
+ 
   
   //Update
   if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
+    ekf_.R_ = R_radar_;
     ekf_.UpdateEKF(meas_package.raw_measurements_);
   } else {
     // Laser updates
+    ekf_.R_ = R_laser_;
     ekf_.Update(meas_package.raw_measurements_);
   }
 
   // print the output
   cout << "x_ = " << ekf_.x_ << endl;
   cout << "P_ = " << ekf_.P_ << endl;
+  
 }
